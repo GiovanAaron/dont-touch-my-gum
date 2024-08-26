@@ -2,6 +2,7 @@ import pygame
 from sys import exit
 from src.components.right_hand import RightHand
 from src.components.left_hand import LeftHand
+from src.components.player import Player
 import random
 
 pygame.init()
@@ -12,6 +13,9 @@ clock = pygame.time.Clock()
 # Load assets
 background = pygame.image.load('./data/assets/background.png').convert_alpha()
 logo_surface = pygame.image.load('./data/assets/logo.png').convert_alpha()
+
+
+player = Player(244,622)
 
 # Initialize sprite groups
 right_hands = pygame.sprite.Group()
@@ -27,6 +31,13 @@ last_right_hand_spawn_time = pygame.time.get_ticks()
 left_hand_spawn_interval = random.randint(4000, 8000)  # Spawn new LeftHand every 4-8 seconds
 right_hand_spawn_interval = random.randint(4000, 8000)  # Spawn new RightHand every 4-8 seconds
 
+
+def check_collision(sprite1, sprite2):
+    # Calculate the offset of sprite2 relative to sprite1
+    offset = (sprite2.rect.x - sprite1.rect.x, sprite2.rect.y - sprite1.rect.y)
+    # Check if there is an overlap between the masks
+    return sprite1.collision_mask.overlap(sprite2.mask, offset) is not None
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -34,6 +45,7 @@ while True:
             exit()
 
     mouse_x, mouse_y = pygame.mouse.get_pos()
+    keys = pygame.key.get_pressed()
     
     # Screen background and static elements
     screen.blit(background, (0, 0))
@@ -59,6 +71,13 @@ while True:
             right_hand_spawn_interval = random.randint(4000, 8000)  # Randomize the interval again
             new_right_hand = RightHand(random.randint(100, 450), -100)  # Randomize x position within bounds
             right_hands.add(new_right_hand)
+
+    
+    screen.blit(player.image, player.rect)
+    player.update(keys)
+    for right_hand in right_hands:
+        if check_collision(player, right_hand):
+            print("Collision with RightHand!")
 
     # Update and draw RightHand group
     right_hands.update()

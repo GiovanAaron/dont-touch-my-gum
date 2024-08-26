@@ -23,6 +23,9 @@ class RightHand(pygame.sprite.Sprite):
         self.frequency = random.uniform(0.005, 0.02)  # Slower frequency for sine wave, similar to LeftHand
         self.original_x = x  # Store the original x position for sine calculation
 
+        # mask
+        self.mask = pygame.mask.from_surface(self.image)
+
     def update(self):
         self.timer += 4
         
@@ -62,3 +65,5 @@ class RightHand(pygame.sprite.Sprite):
         if self.rect.y > 650:
             self.rect.y = -100
         self.rect.y += self.speed / 2 + 0.5
+
+        self.mask.set_at((self.rect.x - self.rect.left, self.rect.y - self.rect.top), 1)
