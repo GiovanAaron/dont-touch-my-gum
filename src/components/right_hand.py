@@ -13,22 +13,22 @@ class RightHand(pygame.sprite.Sprite):
         self.image = pygame.image.load("data/assets/enemy_right_hand.png")
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
-        self.speed = random.randint(1, 6)
+        self.speed = random.uniform(0.735, 3.5)  # Slower baseline speed, similar to LeftHand
         self.direction = False  # True = left, False = right
         self.timer = 0
         self.soft_boundary_chance = 0.7  # Chance to respect soft boundaries
 
-        # Parameters for sine wave movement
-        self.amplitude = 50  # Amplitude of the sine wave
-        self.frequency = 0.02  # Frequency of the sine wave
+        # Randomized parameters for sine wave movement
+        self.amplitude = random.uniform(30, 70)  # Random amplitude between 30 and 70
+        self.frequency = random.uniform(0.005, 0.02)  # Slower frequency for sine wave, similar to LeftHand
         self.original_x = x  # Store the original x position for sine calculation
 
     def update(self):
         self.timer += 4
         
-        # Update speed every 60 frames
-        if self.timer % 60 == 0:
-            self.speed = random.randint(1, 6)
+        # Update speed every 120 frames (slower updates)
+        if self.timer % 120 == 0:
+            self.speed = random.uniform(0.5, 2)  # Slower speed range, similar to LeftHand
 
         # Calculate sine wave movement
         sine_offset = self.amplitude * math.sin(self.frequency * self.timer)
