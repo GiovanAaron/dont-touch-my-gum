@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 class RightHand(pygame.sprite.Sprite):
     LEFT_BOUNDARY = 100
@@ -15,12 +16,23 @@ class RightHand(pygame.sprite.Sprite):
         self.speed = random.randint(1, 6)
         self.direction = False  # True = left, False = right
         self.timer = 0
-        self.soft_boundary_chance = 0.45  # 80% chance to respect soft boundaries
+        self.soft_boundary_chance = 0.7  # Chance to respect soft boundaries
+
+        # Parameters for sine wave movement
+        self.amplitude = 50  # Amplitude of the sine wave
+        self.frequency = 0.02  # Frequency of the sine wave
+        self.original_x = x  # Store the original x position for sine calculation
 
     def update(self):
         self.timer += 4
-        if self.timer % 60 == 0:  # Change speed every 60 frames
+        
+        # Update speed every 60 frames
+        if self.timer % 60 == 0:
             self.speed = random.randint(1, 6)
+
+        # Calculate sine wave movement
+        sine_offset = self.amplitude * math.sin(self.frequency * self.timer)
+        self.rect.x = self.original_x + sine_offset
 
         # Decide whether to respect soft boundaries or move to hard boundaries
         follow_soft_boundary = random.random() < self.soft_boundary_chance
@@ -40,11 +52,11 @@ class RightHand(pygame.sprite.Sprite):
             if self.rect.x < self.LEFT_BOUNDARY:
                 self.direction = False
 
-        # Move the sprite
+        # Update original_x to maintain smooth sine wave movement
         if self.direction:
-            self.rect.x -= self.speed
+            self.original_x -= self.speed
         else:
-            self.rect.x += self.speed
+            self.original_x += self.speed
 
         # Vertical movement logic
         if self.rect.y > 650:
