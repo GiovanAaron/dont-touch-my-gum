@@ -5,6 +5,7 @@ from src.components.right_hand import RightHand
 from src.components.left_hand import LeftHand
 from src.components.player import Player
 from src.components.background import Background
+from src.components.score import ScoreCount
 import random
 
 pygame.init()
@@ -16,6 +17,7 @@ clock = pygame.time.Clock()
 background = pygame.image.load('./data/assets/background.png').convert_alpha()
 logo_surface = pygame.image.load('./data/assets/logo.png').convert_alpha()
 scroll_bg = Background()
+score_container = ScoreCount()
 
 
 player = Player(244,622)
@@ -54,6 +56,8 @@ while True:
     mouse_x, mouse_y = pygame.mouse.get_pos()
     keys = pygame.key.get_pressed()
     
+
+   
     # Screen background and static elements
     # screen.blit(background, (0, 0))
     # screen.blit(logo_surface, (62, 38))
@@ -106,7 +110,10 @@ while True:
     left_hands.update()
     left_hands.draw(screen)
 
- 
+    screen.blit(score_container.image, score_container.rect)
+    score_container.update()
+    score_container.draw(screen)
+
 
     # Update the display
     pygame.display.update()
