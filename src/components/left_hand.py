@@ -23,6 +23,10 @@ class LeftHand(pygame.sprite.Sprite):
         self.frequency = random.uniform(0.005, 0.02)  # Slower frequency for sine wave
         self.original_x = x  # Store the original x position for sine calculation
 
+        # mask
+        self.mask = pygame.mask.from_surface(self.image)
+
+
         # Variables for Y-axis speed boost logic
         self.last_speed_change_time = pygame.time.get_ticks()  # Track the last time the speed was changed
         self.speed_boost_duration = 5000  # 5 seconds in milliseconds
@@ -84,3 +88,5 @@ class LeftHand(pygame.sprite.Sprite):
         if self.rect.y > 650:
             self.rect.y = -250
         self.rect.y += (self.speed / 2 + 0.5) * self.y_speed_multiplier
+
+        self.mask.set_at((self.rect.x - self.rect.left, self.rect.y - self.rect.top), 1)
