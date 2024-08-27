@@ -31,10 +31,14 @@ last_right_hand_spawn_time = pygame.time.get_ticks()
 left_hand_spawn_interval = random.randint(4000, 8000)  # Spawn new LeftHand every 4-8 seconds
 right_hand_spawn_interval = random.randint(4000, 8000)  # Spawn new RightHand every 4-8 seconds
 
+# testing
+test_font = pygame.font.Font("data/fonts/open_serif_italic.ttf", 32)
+test_surface = test_font.render('Your hit!', True, "Red")
+
 
 def check_collision(sprite1, sprite2):
     # Calculate the offset of sprite2 relative to sprite1
-    offset = (sprite2.rect.x - sprite1.rect.x, sprite2.rect.y - sprite1.rect.y)
+    offset = (sprite2.rect.x - sprite1.collision_rect.x, sprite2.rect.y - sprite1.collision_rect.y)
     # Check if there is an overlap between the masks
     return sprite1.collision_mask.overlap(sprite2.mask, offset) is not None
 
@@ -73,11 +77,18 @@ while True:
             right_hands.add(new_right_hand)
 
     
+    screen.blit(player.collision_image, player.collision_rect)
     screen.blit(player.image, player.rect)
     player.update(keys)
     for right_hand in right_hands:
         if check_collision(player, right_hand):
-            print("Collision with RightHand!")
+            # print("Collision with RightHand!")
+            screen.blit(test_surface, (150, 250))
+    for left_hand in left_hands:
+        if check_collision(player, left_hand):
+            # print("Collision with RightHand!")
+            screen.blit(test_surface, (150, 250))
+
 
     # Update and draw RightHand group
     right_hands.update()

@@ -8,13 +8,16 @@ class Player(pygame.sprite.Sprite):
         self.rect.center = (x, y)
         self.speed = 6  # Speed at which the player moves
 
-        self.mask = pygame.mask.from_surface(self.image)
+        # self.mask = pygame.mask.from_surface(self.image)
 
          # Create an invisible cropped mask for collision detection
-        self.collision_image = pygame.Surface((50, 50))  # Example size for the collision area
-        self.collision_image.set_colorkey((0, 0, 255))  # Set transparency color
-        self.collision_rect = self.collision_image.get_rect(center=self.rect.center)
+        self.collision_image = pygame.image.load("data/assets/gum_with_buffer.png").convert_alpha()
+        self.collision_rect = self.collision_image.get_rect()
+        self.collision_buffer_x = 35
+        self.collision_buffer_y = 14
+        self.collision_rect.center = (x + self.collision_buffer_x , self.collision_buffer_y )
         self.collision_mask = pygame.mask.from_surface(self.collision_image)
+        self.collision_image.set_alpha(0)
 
     def update(self, keys):
         # Move the player based on key presses
@@ -27,18 +30,20 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_DOWN]:
             self.rect.y += self.speed
 
-        
+        self.collision_rect.x = self.rect.x + self.collision_buffer_x
+        self.collision_rect.y = self.rect.y + self.collision_buffer_y
 
         # Keep the player within the screen bounds
         self.rect.x = max(-50, min(self.rect.x, 575 - self.rect.width))
         self.rect.y = max(230, min(self.rect.y, 1000 - self.rect.height))
 
-        self.collision_rect.center = self.rect.center
+        self.collision_rect.center = self.collision_rect.center
 
     def draw(self, surface):
         # Draw the player image
         surface.blit(self.image, self.rect)
+        
 
         # Optionally, draw the collision mask for debugging
-        if self.show_collision_mask:
-            pygame.draw.rect(surface, (255, 0, 0), self.collision_rect, 2)  
+        # if self.show_collision_mask:
+        #     pygame.draw.rect(surface, (255, 0, 0), self.collision_rect, 2)  
