@@ -7,6 +7,7 @@ from play_status import PlayStatus
 
 class Credits:
     def __init__(self):
+       
         # Ensure the screen is set up before accessing it
         GameContext.build_screen()
         self.screen = GameContext.SCREEN
@@ -31,9 +32,10 @@ class Credits:
         self.personal_caption_rect.center = (GameContext.WIDTH/2, 600)
 
     def update(self):
+        print(GameContext.PLAY_STATE)
         self.timer += 1/60
-        print(self.timer)
-        if self.timer >= 5:
+        
+        if self.timer >= 2:
             GameContext.PLAY_STATE = PlayStatus.MAIN_MENU
 
         

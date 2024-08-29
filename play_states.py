@@ -1,35 +1,47 @@
 import pygame
 from game_context import GameContext
-from src.components.credits import Credits  # Adjust import as needed
-from play_status import PlayStatus  # Ensure PlayStatus is imported correctly
+from src.components.credits import Credits
+from play_status import PlayStatus
+from src.components.main_menu import MainMenu
 
 def credits_state():
-    # Initialize credits component
     credits = Credits()
     
-    while True:
+    while GameContext.PLAY_STATE == PlayStatus.CREDITS:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
         
-        # Update credits state
         credits.update()
-
-        # Check if the play state has changed
-        if GameContext.PLAY_STATE == PlayStatus.GAME_END:
-            print("Play state changed to GAME_END")
-            
-            end_state()
-            break
-            
-
-        # Draw credits
         credits.draw()
         
         pygame.display.flip()
         pygame.time.Clock().tick(60)  # Cap the frame rate to 60 FPS
 
+    # When exiting the loop, check the new state
+    if GameContext.PLAY_STATE == PlayStatus.MAIN_MENU:
+        main_menu_state()
+
+def main_menu_state():
+    main_menu = MainMenu()
+
+    while GameContext.PLAY_STATE == PlayStatus.MAIN_MENU:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+        
+        keys = pygame.key.get_pressed()
+
+
+        main_menu.draw()
+        main_menu.update(keys)
+
+        pygame.display.flip()
+        pygame.time.Clock().tick(60)  # Cap the frame rate to 60 FPS
+
 def end_state():
-        pygame.quit()
-        exit()
+    print("Game End State is running")
+    pygame.quit()
+    exit()

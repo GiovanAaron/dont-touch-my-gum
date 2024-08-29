@@ -1,7 +1,7 @@
 import pygame
 from game_context import GameContext
 from play_status import PlayStatus
-from play_states import credits_state
+from play_states import credits_state, end_state, main_menu_state
 
 
 
@@ -19,13 +19,17 @@ def update_display():
 
 def main():
     while True:
+
+        
+
         if GameContext.PLAY_STATE == PlayStatus.CREDITS:
             credits_state()
 
+        if GameContext.PLAY_STATE == PlayStatus.MAIN_MENU:
+            main_menu_state()
+
         if GameContext.PLAY_STATE == PlayStatus.GAME_END:
-            print("hello!")
-            pygame.quit()
-            exit()
+            end_state()
 
 
 if __name__ == "__main__":
