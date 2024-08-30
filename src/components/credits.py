@@ -32,7 +32,6 @@ class Credits:
         self.personal_caption_rect.center = (GameContext.WIDTH/2, 600)
 
     def update(self):
-        print(GameContext.PLAY_STATE)
         self.timer += 1/60
         
         if self.timer >= 2:

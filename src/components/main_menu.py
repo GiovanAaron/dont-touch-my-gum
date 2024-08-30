@@ -31,7 +31,7 @@ class MainMenu:
 
     def update(self, keys):
        
-        if keys[pygame.K_SPACE]:  # Check if the SPACE key is pressed
+        if any(keys):  # Check if the SPACE key is pressed
             GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
         
 
