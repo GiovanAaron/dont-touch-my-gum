@@ -36,3 +36,9 @@ class ScoreCount(pygame.sprite.Sprite):
         score_rect = self.score_num.get_rect(center=self.rect.center)
         score_rect.y -= 10
         surface.blit(self.score_num, score_rect)
+
+    def get_final_score(self):
+
+        final_score = self.score
+        return final_score
+

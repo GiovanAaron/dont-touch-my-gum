@@ -103,17 +103,17 @@ class Gameplay:
             for right_hand in self.right_hands:
                 if self.check_collision(self.player, right_hand):
                     self.screen.blit(self.collision_notif, (150, 250))
-                    GameContext.PLAY_STATE = PlayStatus.MAIN_MENU
+                    GameContext.PLAY_STATE = PlayStatus.GAME_OVER
                     pygame.display.update()
-                    return
+                    return self.score_container.get_final_score()
 
             # Check for collisions with LeftHand
             for left_hand in self.left_hands:
                 if self.check_collision(self.player, left_hand):
                     self.screen.blit(self.collision_notif, (150, 250))
-                    GameContext.PLAY_STATE = PlayStatus.MAIN_MENU
+                    GameContext.PLAY_STATE = PlayStatus.GAME_OVER
                     pygame.display.update()
-                    return
+                    return self.score_container.get_final_score()
 
             # Update RightHand and LeftHand groups
             self.right_hands.update()
