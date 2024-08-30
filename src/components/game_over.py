@@ -2,6 +2,7 @@ import pygame
 from game_context import GameContext
 from play_status import PlayStatus
 from src.utils.quip_gen import quip_gen
+from src.utils.studio_audience_gen import studio_audience_sfx
 
 
 
@@ -12,8 +13,9 @@ class GameOver():
         # Get score in text
         self.quip = quip_gen(score)
 
+        self.reaction_sfx = studio_audience_sfx(score)
 
-    
+        
         self.screen = GameContext.SCREEN
         self.start_time = pygame.time.get_ticks()
 
@@ -24,7 +26,8 @@ class GameOver():
         self.score_num = self.score_font.render(f"{score}", True, "#74A578")
         self.prompt = pygame.image.load("data/assets/play_again_prompt.png").convert_alpha()
 
-
+        pygame.mixer.music.play(0)
+        # self.reaction_sfx.play(0)
 
         # Get coordinates
         self.score_num_rect = self.score_num.get_rect()
