@@ -13,9 +13,10 @@ class GameOver():
         self.quip = quip_gen(score)
 
 
-        # Ensure the screen is set up before accessing it
-        GameContext.build_screen()
+    
         self.screen = GameContext.SCREEN
+        self.start_time = pygame.time.get_ticks()
+
         self.bg = pygame.Surface(self.screen.get_size())
         self.bg.fill((255, 255, 255))
         self.score_intro = pygame.image.load("data/assets/score_intro.png").convert_alpha()
@@ -38,9 +39,15 @@ class GameOver():
 
 
 
-    # def update(self):
-    
+    def update(self, keys):
+        self.current_time = pygame.time.get_ticks()
 
+        # Check if 3 seconds have passed
+        if self.current_time - self.start_time >= 3000:  # 3000 milliseconds = 3 seconds
+            if any(keys):  # Check if any key is pressed
+                GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
+        
+        
         
 
     def draw(self):

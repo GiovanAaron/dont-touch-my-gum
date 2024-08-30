@@ -6,6 +6,7 @@ from play_states import credits_state, end_state, main_menu_state, gameplay_stat
 pygame.init()
 
 FPS = pygame.time.Clock()
+GameContext.build_screen()
 
 def update_display():
     pygame.display.update()

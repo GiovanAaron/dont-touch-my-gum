@@ -12,7 +12,7 @@ import random
 class Gameplay:
     def __init__(self):
         # Initialize Pygame
-        GameContext.build_screen()
+        
         self.screen = GameContext.SCREEN
         self.clock = pygame.time.Clock()
 
