@@ -16,6 +16,8 @@ class GameContext:
     # @staticmethod
     def build_screen():
         screen = pygame.display.set_mode((360, 640))
+        pygame.display.set_caption("Don't Touch My Gum!")
+
         GameContext.SCREEN = screen
 
 

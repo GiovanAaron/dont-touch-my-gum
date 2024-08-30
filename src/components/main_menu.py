@@ -7,8 +7,11 @@ from play_status import PlayStatus
 class MainMenu:
     def __init__(self):
 
-        GameContext.build_screen()
+        # GameContext.build_screen()
         self.screen = GameContext.SCREEN
+        self.start_time = pygame.time.get_ticks()
+
+
 
         self.DTMG_logo = pygame.image.load("data/assets/logo.png")
         self.DTMG_logo_rect = self.DTMG_logo.get_rect()
@@ -31,9 +34,12 @@ class MainMenu:
 
     def update(self, keys):
        
-        if any(keys):  # Check if the SPACE key is pressed
-            GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
-        
+        self.current_time = pygame.time.get_ticks()
+
+        # Check if 3 seconds have passed
+        if self.current_time - self.start_time >= 2000:  
+            if any(keys):  # Check if any key is pressed
+                GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
 
     
 

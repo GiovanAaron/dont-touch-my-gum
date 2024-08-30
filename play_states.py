@@ -76,6 +76,10 @@ def game_over_state(score):
         pygame.display.flip()
         pygame.time.Clock().tick(60)
 
+        keys = pygame.key.get_pressed()
+        game_over.update(keys)
+
+
     # Handle transition back to the main menu or end
     if GameContext.PLAY_STATE == PlayStatus.MAIN_MENU:
         main_menu_state()
