@@ -9,8 +9,6 @@ from src.components.score import ScoreCount
 import random
 
 
-
-
 class Gameplay:
     def __init__(self):
         # Initialize Pygame
@@ -23,7 +21,7 @@ class Gameplay:
         self.logo_surface = pygame.image.load('./data/assets/logo.png').convert_alpha()
         self.scroll_bg = Background()
         self.score_container = ScoreCount()
-        
+
         self.player = Player(244, 622)
 
         # Initialize sprite groups
@@ -50,8 +48,23 @@ class Gameplay:
         # Check if there is an overlap between the masks
         return sprite1.collision_mask.overlap(sprite2.mask, offset) is not None
 
+    def draw(self):
+        # Draw screen background and static elements
+        self.screen.blit(self.scroll_bg.image, self.scroll_bg.rect)
+        self.screen.blit(self.scroll_bg.image2, self.scroll_bg.rect2)
+
+        # Draw player
+        self.screen.blit(self.player.collision_image, self.player.collision_rect)
+        self.screen.blit(self.player.image, self.player.rect)
+
+        # Draw RightHand and LeftHand groups
+        self.right_hands.draw(self.screen)
+        self.left_hands.draw(self.screen)
+
+        # Draw score container
+        self.score_container.draw(self.screen)  # Ensure draw() method in ScoreCount class blits the score correctly
+
     def update(self):
-        
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -61,18 +74,14 @@ class Gameplay:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             keys = pygame.key.get_pressed()
 
-            # Screen background and static elements
-            self.screen.blit(self.scroll_bg.image, self.scroll_bg.rect)
-            self.screen.blit(self.scroll_bg.image2, self.scroll_bg.rect2)
+            # Update background scrolling
             self.scroll_bg.update()
-            self.scroll_bg.draw(self.screen)
 
             # Get current time
             current_time = pygame.time.get_ticks()
 
             # Check if we need to spawn a new LeftHand
             if current_time - self.last_left_hand_spawn_time > self.left_hand_spawn_interval:
-                # Only spawn a new LeftHand if there are fewer than 2 on the screen
                 if len(self.left_hands) < 2:
                     self.last_left_hand_spawn_time = current_time
                     self.left_hand_spawn_interval = random.randint(4000, 8000)  # Randomize the interval again
@@ -81,18 +90,16 @@ class Gameplay:
 
             # Check if we need to spawn a new RightHand
             if current_time - self.last_right_hand_spawn_time > self.right_hand_spawn_interval:
-                # Only spawn a new RightHand if there are fewer than 2 on the screen
                 if len(self.right_hands) < 2:
                     self.last_right_hand_spawn_time = current_time
                     self.right_hand_spawn_interval = random.randint(4000, 8000)  # Randomize the interval again
                     new_right_hand = RightHand(random.randint(100, 450), -100)  # Randomize x position within bounds
                     self.right_hands.add(new_right_hand)
 
-            # Update and draw game elements
-            self.screen.blit(self.player.collision_image, self.player.collision_rect)
-            self.screen.blit(self.player.image, self.player.rect)
+            # Update player
             self.player.update(keys)
 
+            # Check for collisions with RightHand
             for right_hand in self.right_hands:
                 if self.check_collision(self.player, right_hand):
                     self.screen.blit(self.collision_notif, (150, 250))
@@ -100,25 +107,23 @@ class Gameplay:
                     pygame.display.update()
                     return
 
+            # Check for collisions with LeftHand
             for left_hand in self.left_hands:
                 if self.check_collision(self.player, left_hand):
                     self.screen.blit(self.collision_notif, (150, 250))
                     GameContext.PLAY_STATE = PlayStatus.MAIN_MENU
                     pygame.display.update()
                     return
-                    
 
-            # Update and draw RightHand group
+            # Update RightHand and LeftHand groups
             self.right_hands.update()
-            self.right_hands.draw(self.screen)
-
-            # Update and draw LeftHand group
             self.left_hands.update()
-            self.left_hands.draw(self.screen)
 
-            self.screen.blit(self.score_container.image, self.score_container.rect)
+            # Update score container
             self.score_container.update()
-            self.score_container.draw(self.screen)
+
+            # Draw everything
+            self.draw()
 
             # Update the display
             pygame.display.update()
