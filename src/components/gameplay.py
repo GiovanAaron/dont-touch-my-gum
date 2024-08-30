@@ -12,9 +12,15 @@ import random
 class Gameplay:
     def __init__(self):
         # Initialize Pygame
-        
+        pygame.mixer.init()
         self.screen = GameContext.SCREEN
         self.clock = pygame.time.Clock()
+
+        # Load Music
+        pygame.mixer.music.load("data/assets/music/dtmg.ogg")
+        pygame.mixer.music.play(-1)
+
+
 
         # Load assets
         self.background = pygame.image.load('./data/assets/background.png').convert_alpha()
@@ -41,6 +47,8 @@ class Gameplay:
         # Font and collision notification
         self.test_font = pygame.font.Font("data/fonts/open_serif_italic.ttf", 32)
         self.collision_notif = self.test_font.render("You're hit!", True, "Red")
+
+        
 
     def check_collision(self, sprite1, sprite2):
         # Calculate the offset of sprite2 relative to sprite1
