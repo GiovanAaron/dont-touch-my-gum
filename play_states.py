@@ -65,7 +65,7 @@ def gameplay_state():
 
 
 
-def game_over_state(score):
+def game_over_state(score=0):
     game_over = GameOver(score)
 
     while GameContext.PLAY_STATE == PlayStatus.GAME_OVER:

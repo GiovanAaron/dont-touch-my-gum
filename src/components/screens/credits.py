@@ -34,7 +34,7 @@ class Credits:
     def update(self):
         self.timer += 1/60
         
-        if self.timer >= 2:
+        if self.timer >= 3:
             GameContext.PLAY_STATE = PlayStatus.MAIN_MENU
 
         
