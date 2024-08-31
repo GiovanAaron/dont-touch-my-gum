@@ -1,12 +1,12 @@
 import pygame
 from game_context import GameContext
 from play_status import PlayStatus
-from src.components.right_hand import RightHand
-from src.components.left_hand import LeftHand
-from src.components.player import Player
-from src.components.background import Background
-from src.components.score import ScoreCount
-from src.components.mute_toggle import MuteButton
+from src.components.gameplay.right_hand import RightHand
+from src.components.gameplay.left_hand import LeftHand
+from src.components.gameplay.player import Player
+from src.components.gameplay.background import Background
+from src.components.gameplay.score import ScoreCount
+from src.components.gameplay.mute_toggle import MuteButton
 import random
 
 
