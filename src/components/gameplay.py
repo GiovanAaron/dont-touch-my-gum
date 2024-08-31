@@ -6,6 +6,7 @@ from src.components.left_hand import LeftHand
 from src.components.player import Player
 from src.components.background import Background
 from src.components.score import ScoreCount
+from src.components.mute_toggle import MuteButton
 import random
 
 
@@ -29,6 +30,11 @@ class Gameplay:
         self.score_container = ScoreCount()
 
         self.player = Player(244, 622)
+
+
+        # Initialize mute button
+        self.mute_button = MuteButton()
+
 
         # Initialize sprite groups
         self.right_hands = pygame.sprite.Group()
@@ -69,6 +75,8 @@ class Gameplay:
         self.right_hands.draw(self.screen)
         self.left_hands.draw(self.screen)
 
+        self.mute_button.draw(self.screen)
+
         # Draw score container
         self.score_container.draw(self.screen)  # Ensure draw() method in ScoreCount class blits the score correctly
 
@@ -79,8 +87,16 @@ class Gameplay:
                     pygame.quit()
                     exit()
 
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:  # 1 is the left mouse button
+                        mouse_pos = pygame.mouse.get_pos()
+
+                    self.mute_button.update(mouse_pos)
+
             mouse_x, mouse_y = pygame.mouse.get_pos()
             keys = pygame.key.get_pressed()
+
+            
 
             # Update background scrolling
             self.scroll_bg.update()
@@ -132,6 +148,15 @@ class Gameplay:
 
             # Draw everything
             self.draw()
+
+
+            # Handle audio mute/unmute
+            if GameContext.AUDIO:
+                pygame.mixer.music.set_volume(1.0)  # Unmuted state
+            else:
+                pygame.mixer.music.set_volume(0.0)  # Muted state
+
+
 
             # Update the display
             pygame.display.update()

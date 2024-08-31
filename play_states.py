@@ -56,6 +56,8 @@ def gameplay_state():
                 pygame.quit()
                 exit()
 
+
+        
         score = gameplay.update()  # Ensure update returns the score
 
     # Return the score when the game is over
