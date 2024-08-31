@@ -1,10 +1,10 @@
 import pygame
 from game_context import GameContext
-from src.components.credits import Credits
+from src.components.screens.credits import Credits
 from play_status import PlayStatus
-from src.components.main_menu import MainMenu
-from src.components.gameplay import Gameplay
-from src.components.game_over import GameOver
+from src.components.screens.main_menu import MainMenu
+from src.components.screens.gameplay import Gameplay
+from src.components.screens.game_over import GameOver
 
 def credits_state():
     credits = Credits()
@@ -57,7 +57,7 @@ def gameplay_state():
                 exit()
 
 
-        
+
         score = gameplay.update()  # Ensure update returns the score
 
     # Return the score when the game is over
