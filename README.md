@@ -3,7 +3,7 @@
 
 Don't Touch My Gum" is a playful and engaging mini-game centred around the common pet peeve of being asked for a piece of gum when you're not in the mood to share. 
 
-![](https://i.imgur.com/d0hM8Ey.gif)
+![](https://github.com/GiovanAaron/dont-touch-my-gum/blob/main/data/assets/tutorial/small%20preview.gif?raw=true)
 
 ### How to Play
 
