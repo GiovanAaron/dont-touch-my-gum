@@ -32,7 +32,10 @@ def main():
             score = gameplay_state()  # Retrieve the score when gameplay ends
 
         elif GameContext.PLAY_STATE == PlayStatus.GAME_OVER:
-            game_over_state(score)  # Pass the score to the game over state
+            try:
+                score
+                game_over_state(score)
+            except: game_over_state()  # Pass the score to the game over state
 
 if __name__ == "__main__":
     main()

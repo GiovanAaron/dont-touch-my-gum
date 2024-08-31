@@ -14,11 +14,13 @@ Use the arrow keys your maneuver your hand out of the way.
 Open Command Prompt and run the following:
 
 `pip install pygame`
+`python main.py`
 
 #### Mac
 Open Terminal and run the following:
 
 `pip3 install pygame`
+`python3 main.py`
 
 #### Linux
 

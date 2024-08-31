@@ -18,6 +18,8 @@ class GameContext:
     def build_screen():
         screen = pygame.display.set_mode((360, 640))
         pygame.display.set_caption("Don't Touch My Gum!")
+        icon = pygame.image.load("data/assets/tutorial/pygame_window_icon.png")
+        pygame.display.set_icon(icon)
 
         GameContext.SCREEN = screen
 

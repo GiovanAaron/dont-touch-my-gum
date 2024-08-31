@@ -3,11 +3,12 @@ from game_context import GameContext
 from play_status import PlayStatus
 from src.utils.quip_gen import quip_gen
 from src.utils.studio_audience_gen import studio_audience_sfx
+from src.components.ui.play_again_prompt import PlayAgainPrompt
 
 
 
 class GameOver():
-    def __init__(self, score):
+    def __init__(self, score=0):
         print(f"Game Over! Your score was: {score}")
 
         # Get score in text
@@ -24,7 +25,8 @@ class GameOver():
         self.score_intro = pygame.image.load("data/assets/score_intro.png").convert_alpha()
         self.score_font = pygame.font.Font("data/fonts/OpenSans_Condensed-BoldItalic.ttf", 110)
         self.score_num = self.score_font.render(f"{score}", True, "#74A578")
-        self.prompt = pygame.image.load("data/assets/play_again_prompt.png").convert_alpha()
+        # self.prompt = pygame.image.load("data/assets/play_again_prompt.png").convert_alpha()
+        self.prompt = PlayAgainPrompt()
 
         pygame.mixer.music.play(0)
         # self.reaction_sfx.play(0)
@@ -34,8 +36,8 @@ class GameOver():
         self.score_num_rect.center = (GameContext.WIDTH/2, 300)
         self.score_intro_rect = self.score_intro.get_rect()
         self.score_intro_rect.center = (GameContext.WIDTH/2, 100)
-        self.prompt_rect = self.prompt.get_rect()
-        self.prompt_rect.center = (GameContext.WIDTH/2, GameContext.HEIGHT - 100)
+        # self.prompt_rect = self.prompt.get_rect()
+        # self.prompt_rect.center = (GameContext.WIDTH/2, GameContext.HEIGHT - 100)
         self.quip_rect = self.quip.get_rect()
         self.quip_rect.center = (GameContext.WIDTH/2, GameContext.HEIGHT - 150)
 
@@ -49,6 +51,8 @@ class GameOver():
         if self.current_time - self.start_time >= 3000:  # 3000 milliseconds = 3 seconds
             if any(keys):  # Check if any key is pressed
                 GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
+
+        self.prompt.update()
         
         
         
@@ -59,7 +63,8 @@ class GameOver():
         self.screen.blit(self.bg, (0, 0))
         self.screen.blit(self.score_intro, self.score_intro_rect)
         self.screen.blit(self.score_num, self.score_num_rect)
-        self.screen.blit(self.prompt, self.prompt_rect)
+        # self.screen.blit(self.prompt, self.prompt_rect)
         self.screen.blit(self.quip, self.quip_rect)
+        self.prompt.draw(self.screen)
 
        
