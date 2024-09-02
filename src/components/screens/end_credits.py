@@ -18,14 +18,12 @@ class EndCredits:
 
     def update(self):
         
-        if self.pos < -185:
+        if self.pos == -185:
             self.timer += 1
-            
-        
-        print (self.timer)
-        # if self.timer == 10:
-        #     GameContext.PLAY_STATE = PlayStatus.MAIN_MENU
-        
+
+
+        if self.timer >= 3000:
+            GameContext.PLAY_STATE = PlayStatus.MAIN_MENU
 
         if self.pos > -185:
             self.pos -= 1

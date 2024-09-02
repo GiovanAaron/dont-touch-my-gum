@@ -56,6 +56,11 @@ class GameOver():
             if any(keys):  # Check if any key is pressed
                 GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
 
+
+        if self.current_time - self.start_time >= 13000:  # 3000 milliseconds = 3 seconds
+            GameContext.PLAY_STATE = PlayStatus.END_CREDITS
+        
+
         self.prompt.update()
         
         
