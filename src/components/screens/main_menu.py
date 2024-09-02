@@ -46,7 +46,7 @@ class MainMenu:
         # Check if 3 seconds have passed
         if self.current_time - self.start_time >= 2000:  
             if any(keys):  # Check if any key is pressed
-                GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
+                GameContext.PLAY_STATE = PlayStatus.TUTORIAL
 
     
 
