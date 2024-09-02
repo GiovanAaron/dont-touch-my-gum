@@ -1,9 +1,9 @@
 import pygame 
 
-class Backbutton(pygame.sprite.Sprite):
+class MainMenuButton(pygame.sprite.Sprite):
     def __init__(self):
 
-        self.image = pygame.image.load("data/assets/ui/back_arrow.png")
+        self.image = pygame.image.load("data/assets/ui/back_main_menu.png")
         self.image_rect = self.image.get_rect()
         self.image_rect.topleft = (20, 15)
 

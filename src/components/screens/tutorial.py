@@ -2,6 +2,7 @@ import pygame
 from game_context import GameContext
 from play_status import PlayStatus
 from src.components.ui.start_prompt import StartPrompt
+from src.components.ui.back import Backbutton
 
 
 class Tutorial:
@@ -16,6 +17,8 @@ class Tutorial:
         self.start_prompt = StartPrompt()
         self.start_prompt_img = self.start_prompt.start_prompt
         
+        self.back_button = Backbutton()
+        
 
     
     def update(self, keys):
@@ -29,8 +32,10 @@ class Tutorial:
             self.start_prompt.update()
 
         
+        
+            
 
-
+        
 
     
     def draw(self):
@@ -38,5 +43,6 @@ class Tutorial:
         
         self.screen.blit(self.tutorial_img, self.tutorial_img_rect)
         self.screen.blit(self.start_prompt_img, (50, 320))
+        self.back_button.draw(self.screen)
 
         pygame.display.update()        

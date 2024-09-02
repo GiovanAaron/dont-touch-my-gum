@@ -6,6 +6,9 @@ from src.components.screens.main_menu import MainMenu
 from src.components.screens.gameplay import Gameplay
 from src.components.screens.game_over import GameOver
 from src.components.screens.tutorial import Tutorial
+from src.components.ui.back import Backbutton
+from src.components.ui.main_menu import MainMenuButton
+from src.components.ui.tutorial_icon import TutorialIcon
 
 def credits_state():
     credits = Credits()
@@ -68,12 +71,33 @@ def gameplay_state():
 
 def game_over_state(score=0):
     game_over = GameOver(score)
+    main_menu_nav = MainMenuButton()
+    tutorial_icon = TutorialIcon()
 
     while GameContext.PLAY_STATE == PlayStatus.GAME_OVER:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                    
+                    if event.button == 1:  # Left mouse button
+                        mouse_pos = pygame.mouse.get_pos()
+                        
+                        if main_menu_nav.is_clicked(mouse_pos):
+                            
+                            GameContext.PLAY_STATE = PlayStatus.MAIN_MENU
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                    
+                    if event.button == 1:  # Left mouse button
+                        mouse_pos = pygame.mouse.get_pos()
+                        
+                        if tutorial_icon.is_clicked(mouse_pos):
+                            
+                            GameContext.PLAY_STATE = PlayStatus.TUTORIAL
+
 
         game_over.draw()
         pygame.display.flip()
@@ -94,13 +118,25 @@ def game_over_state(score=0):
 def tutorial_state():
 
     tutorial = Tutorial()
+    back_button = Backbutton()
     while GameContext.PLAY_STATE == PlayStatus.TUTORIAL:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+            
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                
+                if event.button == 1:  # Left mouse button
+                    mouse_pos = pygame.mouse.get_pos()
+                    
+                    if back_button.is_clicked(mouse_pos):
+                        
+                        GameContext.PLAY_STATE = PlayStatus.MAIN_MENU
+    
         
         keys = pygame.key.get_pressed()
+
         tutorial.update(keys)
         tutorial.draw()
         pygame.time.Clock().tick(60)

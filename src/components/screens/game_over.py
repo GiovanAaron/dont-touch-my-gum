@@ -4,6 +4,8 @@ from play_status import PlayStatus
 from src.utils.quip_gen import quip_gen
 from src.utils.studio_audience_gen import studio_audience_sfx
 from src.components.ui.play_again_prompt import PlayAgainPrompt
+from src.components.ui.main_menu import MainMenuButton
+from src.components.ui.tutorial_icon import TutorialIcon
 
 
 
@@ -40,6 +42,8 @@ class GameOver():
         # self.prompt_rect.center = (GameContext.WIDTH/2, GameContext.HEIGHT - 100)
         self.quip_rect = self.quip.get_rect()
         self.quip_rect.center = (GameContext.WIDTH/2, GameContext.HEIGHT - 150)
+        self.main_menu_nav = MainMenuButton()
+        self.tutorial_icon = TutorialIcon()
 
 
 
@@ -66,5 +70,7 @@ class GameOver():
         # self.screen.blit(self.prompt, self.prompt_rect)
         self.screen.blit(self.quip, self.quip_rect)
         self.prompt.draw(self.screen)
+        self.main_menu_nav.draw(self.screen)
+        self.tutorial_icon.draw(self.screen)
 
        
