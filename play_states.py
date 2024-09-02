@@ -9,6 +9,7 @@ from src.components.screens.tutorial import Tutorial
 from src.components.ui.back import Backbutton
 from src.components.ui.main_menu import MainMenuButton
 from src.components.ui.tutorial_icon import TutorialIcon
+from src.components.screens.end_credits import EndCredits
 
 def credits_state():
     credits = Credits()
@@ -142,6 +143,19 @@ def tutorial_state():
         pygame.time.Clock().tick(60)
         
 
+
+def end_credits_state():
+
+    end_credits = EndCredits()
+    while GameContext.PLAY_STATE == PlayStatus.END_CREDITS:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+        
+        end_credits.draw()
+        end_credits.update()
 
 def end_state():
     print("Game End State is running")

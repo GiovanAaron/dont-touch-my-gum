@@ -6,7 +6,7 @@ from play_status import PlayStatus
 
 
 class GameContext:
-    PLAY_STATE = PlayStatus.GAME_OVER
+    PLAY_STATE = PlayStatus.END_CREDITS
     AUDIO = True
     HIGHEST_SCORE = 0
     
