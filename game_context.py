@@ -8,6 +8,7 @@ from play_status import PlayStatus
 class GameContext:
     PLAY_STATE = PlayStatus.CREDITS
     AUDIO = True
+    HIGHEST_SCORE = 0
     
     SCREEN = None
     WIDTH = 360

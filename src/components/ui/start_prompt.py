@@ -8,9 +8,9 @@ class StartPrompt(pygame.sprite.Sprite):
         self.start_prompt_rect.center = (GameContext.WIDTH/2, 250)
 
 
-        self.transparency = 225
+        self.transparency = 0
         self.start_prompt.set_alpha(self.transparency)
-        self.visible = True
+        self.visible = False
         
         self.timer = 0
 

@@ -5,6 +5,7 @@ from play_status import PlayStatus
 from src.components.screens.main_menu import MainMenu
 from src.components.screens.gameplay import Gameplay
 from src.components.screens.game_over import GameOver
+from src.components.screens.tutorial import Tutorial
 
 def credits_state():
     credits = Credits()
@@ -89,6 +90,21 @@ def game_over_state(score=0):
         end_state()
 
 
+
+def tutorial_state():
+
+    tutorial = Tutorial()
+    while GameContext.PLAY_STATE == PlayStatus.TUTORIAL:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+        
+        keys = pygame.key.get_pressed()
+        tutorial.update(keys)
+        tutorial.draw()
+        pygame.time.Clock().tick(60)
+        
 
 
 def end_state():
