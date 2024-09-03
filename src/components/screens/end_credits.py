@@ -16,7 +16,7 @@ class EndCredits:
         self.timer = 0
 
 
-    def update(self):
+    def update(self, keys):
         
         if self.pos == -185:
             self.timer += 1
@@ -30,6 +30,8 @@ class EndCredits:
             self.image_rect.center = (GameContext.WIDTH/2, self.pos)
             self.clock.tick(60)
         
+        if any(keys):
+            GameContext.PLAY_STATE = PlayStatus.MAIN_MENU
 
 
     def draw(self):

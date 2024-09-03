@@ -59,6 +59,9 @@ class GameOver():
 
         if self.current_time - self.start_time >= 13000:  # 3000 milliseconds = 3 seconds
             GameContext.PLAY_STATE = PlayStatus.END_CREDITS
+
+        
+
         
 
         self.prompt.update()

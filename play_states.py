@@ -153,9 +153,10 @@ def end_credits_state():
                 pygame.quit()
                 exit()
 
-        
+
+        keys = pygame.key.get_pressed()
         end_credits.draw()
-        end_credits.update()
+        end_credits.update(keys)
 
 def end_state():
     print("Game End State is running")
