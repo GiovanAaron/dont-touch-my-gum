@@ -1,7 +1,7 @@
 import pygame
 from game_context import GameContext
 from play_status import PlayStatus
-from play_states import credits_state, end_state, main_menu_state, gameplay_state, game_over_state, tutorial_state
+from play_states import credits_state, end_state, main_menu_state, gameplay_state, game_over_state, tutorial_state, end_credits_state
 
 pygame.init()
 
@@ -38,6 +38,9 @@ def main():
             except: game_over_state()  # Pass the score to the game over state
         elif GameContext.PLAY_STATE == PlayStatus.TUTORIAL:
             tutorial_state()
+
+        elif GameContext.PLAY_STATE == PlayStatus.END_CREDITS:
+            end_credits_state()
 
 if __name__ == "__main__":
     main()

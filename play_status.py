@@ -8,5 +8,6 @@ class PlayStatus(Enum):
     GAME_OVER = 3
     GAME_END = 4
     TUTORIAL = 5
+    END_CREDITS = 6
 
 
