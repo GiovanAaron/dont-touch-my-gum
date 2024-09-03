@@ -6,12 +6,12 @@ from src.utils.studio_audience_gen import studio_audience_sfx
 from src.components.ui.play_again_prompt import PlayAgainPrompt
 from src.components.ui.main_menu import MainMenuButton
 from src.components.ui.tutorial_icon import TutorialIcon
+from src.components.ui.highest_score import HighestScore
 
 
 
 class GameOver():
     def __init__(self, score=0):
-        print(f"Game Over! Your score was: {score}")
 
         # Get score in text
         self.quip = quip_gen(score)
@@ -44,6 +44,9 @@ class GameOver():
         self.quip_rect.center = (GameContext.WIDTH/2, GameContext.HEIGHT - 150)
         self.main_menu_nav = MainMenuButton()
         self.tutorial_icon = TutorialIcon()
+
+
+        self.highest_score = HighestScore(585)
 
 
 
@@ -80,5 +83,5 @@ class GameOver():
         self.prompt.draw(self.screen)
         self.main_menu_nav.draw(self.screen)
         self.tutorial_icon.draw(self.screen)
-
+        self.highest_score.draw(self.screen)
        
