@@ -21,11 +21,6 @@ class MuteButton (pygame.sprite.Sprite):
             # Toggle the audio state
             GameContext.AUDIO = not GameContext.AUDIO
             
-            # Print the appropriate message based on the new state
-            if GameContext.AUDIO:
-                print("click to unmute")
-            else:
-                print("clicked to mute")
 
     
     def draw(self, surface):

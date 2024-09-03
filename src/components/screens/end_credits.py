@@ -8,7 +8,7 @@ class EndCredits:
 
         self.image = pygame.image.load("data/assets/ui/credits_roll.png")
         self.image_rect = self.image.get_rect()
-        self.pos = 1150  #good starting position is 1200
+        self.pos = 1150  
         self.image_rect.center = (GameContext.WIDTH/2, self.pos)
         self.screen = GameContext.SCREEN
         self.bg_color = (102, 102, 102)

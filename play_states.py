@@ -71,6 +71,9 @@ def gameplay_state():
 
 
 def game_over_state(score=0):
+    if score > GameContext.HIGHEST_SCORE:
+        GameContext.HIGHEST_SCORE = score
+        
     game_over = GameOver(score)
     main_menu_nav = MainMenuButton()
     tutorial_icon = TutorialIcon()

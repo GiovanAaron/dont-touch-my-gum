@@ -2,6 +2,7 @@ import pygame
 from game_context import GameContext
 from play_status import PlayStatus
 from src.components.ui.start_prompt import StartPrompt
+from src.components.ui.highest_score import HighestScore
 
 
 
@@ -26,6 +27,9 @@ class MainMenu:
 
         # animated prompt
         self.start_prompt = StartPrompt()
+
+        # highest score
+        self.score = HighestScore()
         
 
         self.mascot = pygame.image.load("data/assets/mascot.png").convert_alpha()
@@ -59,5 +63,8 @@ class MainMenu:
         self.screen.blit(self.display_hands, self.display_hands_rect)
         
         self.start_prompt.draw(self.screen)
+        
+        self.score.draw(self.screen)
+        
         
     
