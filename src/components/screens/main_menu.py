@@ -3,6 +3,7 @@ from game_context import GameContext
 from play_status import PlayStatus
 from src.components.ui.start_prompt import StartPrompt
 from src.components.ui.highest_score import HighestScore
+from src.components.ui.mascot import Mascot
 
 
 
@@ -15,7 +16,7 @@ class MainMenu:
 
         
 
-        self.DTMG_logo = pygame.image.load("data/assets/logo.png")
+        self.DTMG_logo = pygame.image.load("data/assets/ui/logo.png")
         self.DTMG_logo_rect = self.DTMG_logo.get_rect()
         self.DTMG_logo_rect.center = (GameContext.WIDTH/2, 100)
         self.background = pygame.image.load('./data/assets/background.png').convert_alpha()
@@ -40,6 +41,9 @@ class MainMenu:
         self.display_hands_rect = self.display_hands.get_rect()
         self.display_hands_rect.center = (GameContext.WIDTH/2, 429 + 211 / 2)
 
+        self.mascot2 = Mascot()
+
+
 
     def update(self, keys):
        
@@ -51,9 +55,10 @@ class MainMenu:
         if self.current_time - self.start_time >= 2000:  
             if any(keys):  # Check if any key is pressed
                 GameContext.PLAY_STATE = PlayStatus.TUTORIAL
-
-    
-
+        
+        
+        
+        self.mascot2.update()
 
     def draw(self):
         self.screen.blit(self.background, (0,0))
@@ -65,6 +70,8 @@ class MainMenu:
         self.start_prompt.draw(self.screen)
         
         self.score.draw(self.screen)
+
+        self.mascot2.draw(self.screen)
         
         
     

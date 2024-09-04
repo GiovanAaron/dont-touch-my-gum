@@ -60,13 +60,9 @@ class Player(pygame.sprite.Sprite):
         
 
     def draw(self, surface):
-        # Draw the player image
-        # surface.blit(self.image, self.rect)
-        # if self.rect.y == 230:
-            surface.blit(self.left_boundary, self.left_boundary_rect)
-            surface.blit(self.right_boundary, self.right_boundary_rect)
+        
+        surface.blit(self.left_boundary, self.left_boundary_rect)
+        surface.blit(self.right_boundary, self.right_boundary_rect)
         
 
-        # Optionally, draw the collision mask for debugging
-        # if self.show_collision_mask:
-        #     pygame.draw.rect(surface, (255, 0, 0), self.collision_rect, 2)  
+     
