@@ -5,6 +5,7 @@ from src.components.ui.start_prompt import StartPrompt
 from src.components.ui.highest_score import HighestScore
 from src.components.ui.mascot import Mascot
 from src.components.ui.yellow_spark import YellowSpark
+from src.components.ui.white_sparkle import WhiteSparkle
 
 
 
@@ -22,6 +23,7 @@ class MainMenu:
         self.DTMG_logo_rect.center = (GameContext.WIDTH/2, 100)
         self.background = pygame.image.load('./data/assets/background.png').convert_alpha()
         self.yellow_spark = YellowSpark()
+        self.white_sparkle = WhiteSparkle()
 
 
         # self.start_prompt = pygame.image.load("data/assets/start_prompt.png").convert_alpha()
@@ -60,6 +62,7 @@ class MainMenu:
         
         
         self.mascot.update()
+        self.white_sparkle.update()
 
     def draw(self):
         self.screen.blit(self.background, (0,0))
@@ -75,6 +78,8 @@ class MainMenu:
         self.mascot.draw(self.screen)
 
         self.yellow_spark.draw(self.screen)
+
+        self.white_sparkle.draw(self.screen)
         
         
     
