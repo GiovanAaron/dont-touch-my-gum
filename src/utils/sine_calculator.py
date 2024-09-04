@@ -11,3 +11,7 @@ def sine_calculate(base_y, timer, amplitude=5, frequency=0.015):
     :return: The new y position.
     """
     return base_y + amplitude * math.sin(frequency * timer)
+
+
+
+

@@ -25,7 +25,6 @@ class Gameplay:
 
         # Load assets
         self.background = pygame.image.load('./data/assets/background.png').convert_alpha()
-        self.logo_surface = pygame.image.load('./data/assets/logo.png').convert_alpha()
         self.scroll_bg = Background()
         self.score_container = ScoreCount()
 
