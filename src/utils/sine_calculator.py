@@ -13,4 +13,5 @@ def sine_calculate(base_y, timer, amplitude=5, frequency=0.015):
     return base_y + amplitude * math.sin(frequency * timer)
 
 
-def sparkle_movement()
+
+
