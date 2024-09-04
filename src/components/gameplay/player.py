@@ -1,4 +1,5 @@
 import pygame
+from src.utils.calculate_alpha import calculate_alpha
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -18,6 +19,18 @@ class Player(pygame.sprite.Sprite):
         self.collision_rect.center = (x + self.collision_buffer_x , self.collision_buffer_y )
         self.collision_mask = pygame.mask.from_surface(self.collision_image)
         self.collision_image.set_alpha(0)
+
+        # boundary
+        self.left_boundary = pygame.image.load("data/assets/boundary.png").convert_alpha()
+        self.right_boundary = pygame.image.load("data/assets/boundary.png").convert_alpha()
+        self.left_boundary_rect = self.left_boundary.get_rect()
+        self.left_boundary_rect.topleft = (0, 237)
+        self.right_boundary_rect = self.left_boundary.get_rect()
+        self.right_boundary_rect.topleft = (270, 237)
+
+        self.boundary_opacity = 0
+
+        
 
     def update(self, keys):
         # Move the player based on key presses
@@ -39,9 +52,19 @@ class Player(pygame.sprite.Sprite):
 
         self.collision_rect.center = self.collision_rect.center
 
+        
+        self.bounadry_opacity = calculate_alpha(self.rect.y) 
+        self.left_boundary.set_alpha(self.bounadry_opacity)
+        self.right_boundary.set_alpha(self.bounadry_opacity)
+
+        
+
     def draw(self, surface):
         # Draw the player image
-        surface.blit(self.image, self.rect)
+        # surface.blit(self.image, self.rect)
+        # if self.rect.y == 230:
+            surface.blit(self.left_boundary, self.left_boundary_rect)
+            surface.blit(self.right_boundary, self.right_boundary_rect)
         
 
         # Optionally, draw the collision mask for debugging

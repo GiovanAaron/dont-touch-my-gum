@@ -78,7 +78,9 @@ class Gameplay:
         self.mute_button.draw(self.screen)
 
         # Draw score container
-        self.score_container.draw(self.screen)  # Ensure draw() method in ScoreCount class blits the score correctly
+        self.score_container.draw(self.screen)  
+        
+        self.player.draw(self.screen)# Ensure draw() method in ScoreCount class blits the score correctly
 
     def update(self):
         while True:
@@ -146,6 +148,7 @@ class Gameplay:
             # Update score container
             self.score_container.update()
 
+            
             # Draw everything
             self.draw()
 
