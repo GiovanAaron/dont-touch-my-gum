@@ -18,9 +18,9 @@ class Credits:
         self.bg.fill((255, 255, 255))
         
         # Load images with proper method call
-        self.personal_logo = pygame.image.load("data/assets/giovan_aaron.png").convert_alpha()
-        self.personal_caption = pygame.image.load("data/assets/caption.png").convert_alpha()
-        self.DTMG_logo = pygame.image.load("data/assets/logo.png")
+        self.personal_logo = pygame.image.load("data/assets/ui/giovan_aaron.png").convert_alpha()
+        self.personal_caption = pygame.image.load("data/assets/ui/caption.png").convert_alpha()
+        self.DTMG_logo = pygame.image.load("data/assets/ui/logo.png")
 
         self.personal_logo_rect = self.personal_logo.get_rect()
         self.personal_logo_rect.center = (GameContext.WIDTH/2, GameContext.HEIGHT/2)
