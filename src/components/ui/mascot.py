@@ -6,7 +6,7 @@ class Mascot(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()  # Initialize the sprite class
         self.y = 370  # Base Y position
-        self.image = pygame.image.load("data/assets/ui/mascot2.png")
+        self.image = pygame.image.load("data/assets/ui/mascot2.png").convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.center = (GameContext.WIDTH / 2, self.y)
         self.timer = 0
