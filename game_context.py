@@ -6,10 +6,15 @@ from play_status import PlayStatus
 
 
 class GameContext:
-    PLAY_STATE = PlayStatus.GAMEPLAY
+    PLAY_STATE = PlayStatus.CREDITS
     AUDIO = True
     HIGHEST_SCORE = 0
     
+    MAIN_MENU_VISITS = 0
+    TUTORIAL_VISITS = 0
+    GAME_OVER_VISITS = 0
+
+
     SCREEN = None
     WIDTH = 360
     HEIGHT = 640

@@ -54,9 +54,20 @@ class GameOver():
     def update(self, keys):
         self.current_time = pygame.time.get_ticks()
 
+        
+        if GameContext.GAME_OVER_VISITS >= 3:
+             if self.current_time - self.start_time >= 1500:  # 3000 milliseconds = 3 seconds
+                if any(keys):  # Check if any key is pressed
+                    GameContext.GAME_OVER_VISITS += 1
+                    GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
+
+        
+
+
         # Check if 3 seconds have passed
         if self.current_time - self.start_time >= 3000:  # 3000 milliseconds = 3 seconds
             if any(keys):  # Check if any key is pressed
+                GameContext.GAME_OVER_VISITS += 1
                 GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
 
 

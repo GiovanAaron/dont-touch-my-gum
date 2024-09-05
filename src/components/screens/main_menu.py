@@ -12,6 +12,9 @@ from src.components.ui.white_sparkle import WhiteSparkle
 class MainMenu:
     def __init__(self):
 
+        GameContext.MAIN_MENU_VISITS += 1
+    
+        
         # GameContext.build_screen()
         self.screen = GameContext.SCREEN
         self.start_time = pygame.time.get_ticks()
@@ -58,6 +61,12 @@ class MainMenu:
         self.yellow_spark.update()
         self.start_prompt.update()
         self.current_time = pygame.time.get_ticks()
+
+
+        if GameContext.MAIN_MENU_VISITS >= 3:
+             if self.current_time - self.start_time >= 1000:  
+                if any(keys):  # Check if any key is pressed
+                    GameContext.PLAY_STATE = PlayStatus.TUTORIAL
 
         # Check if 3 seconds have passed
         if self.current_time - self.start_time >= 2000:  

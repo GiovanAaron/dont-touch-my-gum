@@ -7,6 +7,9 @@ from src.components.ui.back import Backbutton
 
 class Tutorial:
     def __init__ (self):
+
+        GameContext.TUTORIAL_VISITS += 1
+
         self.screen = GameContext.SCREEN
         self.start_time = pygame.time.get_ticks()
 
@@ -23,6 +26,11 @@ class Tutorial:
     
     def update(self, keys):
         self.current_time = pygame.time.get_ticks()
+
+        if GameContext.TUTORIAL_VISITS >= 3:
+             if self.current_time - self.start_time >= 1000:
+                if any(keys):
+                    GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
 
         if self.current_time - self.start_time >= 3000:
             if any(keys):

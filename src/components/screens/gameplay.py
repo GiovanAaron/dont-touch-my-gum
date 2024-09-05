@@ -60,6 +60,8 @@ class Gameplay:
 
         
 
+        
+
     def check_collision(self, sprite1, sprite2):
         # Calculate the offset of sprite2 relative to sprite1
         offset = (sprite2.rect.x - sprite1.collision_rect.x, sprite2.rect.y - sprite1.collision_rect.y)
