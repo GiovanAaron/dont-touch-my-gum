@@ -20,7 +20,7 @@ class MainMenu:
 
         self.DTMG_logo = pygame.image.load("data/assets/ui/logo_without_shine.png")
         self.DTMG_logo_rect = self.DTMG_logo.get_rect()
-        self.DTMG_logo_rect.center = (GameContext.WIDTH/2, 100)
+        self.DTMG_logo_rect.center = (GameContext.WIDTH/2 +6, 100)
         self.background = pygame.image.load('./data/assets/background.png').convert_alpha()
         self.yellow_spark = YellowSpark()
         self.white_sparkle = WhiteSparkle()
@@ -47,9 +47,9 @@ class MainMenu:
         self.mascot = Mascot()
 
         self.sparkle_cluster = pygame.sprite.Group(
-            WhiteSparkle((79,43), 150),
-            WhiteSparkle((72,61), 550),
-            WhiteSparkle((90,59), 950)
+            WhiteSparkle((79 + 5 ,43), 150),
+            WhiteSparkle((72 + 5,61), 550),
+            WhiteSparkle((90 + 5,59), 950)
         )
 
 
