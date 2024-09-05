@@ -7,6 +7,7 @@ from src.components.gameplay.player import Player
 from src.components.gameplay.background import Background
 from src.components.gameplay.score import ScoreCount
 from src.components.gameplay.mute_toggle import MuteButton
+from src.components.ui.paused import Paused
 import random
 
 
@@ -53,6 +54,10 @@ class Gameplay:
         self.test_font = pygame.font.Font("data/fonts/open_serif_italic.ttf", 32)
         self.collision_notif = self.test_font.render("You're hit!", True, "Red")
 
+        self.paused = False
+        self.current_music_pos = 30
+        self.paused_notif = Paused()
+
         
 
     def check_collision(self, sprite1, sprite2):
@@ -88,11 +93,33 @@ class Gameplay:
                     pygame.quit()
                     exit()
 
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:  # Toggle pause on spacebar press
+                        if self.paused == False:
+
+                            pygame.mixer.music.pause()
+                                      
+                            self.paused = not self.paused
+                        else: 
+                            pygame.mixer_music.unpause()
+                            self.paused = not self.paused
+                            
+
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:  # 1 is the left mouse button
                         mouse_pos = pygame.mouse.get_pos()
 
                     self.mute_button.update(mouse_pos)
+
+                
+
+            # If the game is paused, skip updating the game objects
+            if self.paused:
+                self.paused_notif.draw(self.screen)
+                pygame.display.update()
+                self.clock.tick(60)  # Still cap frame rate to 60 FPS during pause
+                continue
+            
 
             mouse_x, mouse_y = pygame.mouse.get_pos()
             keys = pygame.key.get_pressed()
@@ -159,6 +186,10 @@ class Gameplay:
                 pygame.mixer.music.set_volume(0.0)  # Muted state
 
 
+           
+                
+
+            
 
             # Update the display
             pygame.display.update()
