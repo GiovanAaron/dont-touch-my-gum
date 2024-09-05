@@ -21,7 +21,7 @@ class YellowSpark(pygame.sprite.Sprite):
         
         self.timer += 1
 
-        if self.timer % 180 == 0:
+        if self.timer % 120 == 0:
             self.state = not self.state
 
 
