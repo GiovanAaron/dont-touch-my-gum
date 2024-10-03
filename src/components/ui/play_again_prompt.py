@@ -42,16 +42,3 @@ class PlayAgainPrompt(pygame.sprite.Sprite):
     def draw(self, screen):
 
         screen.blit(self.prompt, self.prompt_rect)
-
-            
-
-        
-
-
-
-        
-
-
-
-
-        
