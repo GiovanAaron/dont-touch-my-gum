@@ -109,6 +109,18 @@ def calculate_alpha(y):
     return int(alpha)
 
 # Components
+
+class LinkedIn(pygame.sprite.Sprite):
+
+    def __init__(self):
+        self.image = pygame.image.load("data/assets/ui/linkedin.png").convert_alpha()
+        self.rect = self.image.get_rect()
+        self.rect.center = (GameContext.WIDTH - 50, 20)
+
+    
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+
 class RightHand(pygame.sprite.Sprite):
     LEFT_BOUNDARY = 100
     RIGHT_BOUNDARY = 450
@@ -802,7 +814,7 @@ class MainMenu:
         # highest score
         self.score = HighestScore()
         
-
+        self.linkedin = LinkedIn()
         
 
         self.display_hands = pygame.image.load("data/assets/display_hands.png").convert_alpha()
@@ -860,6 +872,7 @@ class MainMenu:
         # self.white_sparkle.draw(self.screen)
 
         self.sparkle_cluster.draw(self.screen)
+        self.linkedin.draw(self.screen)
         
 
 class Gameplay:
@@ -1411,7 +1424,7 @@ async def main():
         
         print("Current play state:", GameContext.PLAY_STATE)
 
-        await asyncio.sleep() 
+        await asyncio.sleep(0) 
         
           
         for event in pygame.event.get():
