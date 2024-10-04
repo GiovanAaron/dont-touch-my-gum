@@ -3,6 +3,10 @@ import pygame
 import random
 import math
 
+
+if __import__('sys').platform == "emscripten":
+    import js
+
 pygame.init()
 
 # Play Status
@@ -120,6 +124,9 @@ class LinkedIn(pygame.sprite.Sprite):
     
     def draw(self, screen):
         screen.blit(self.image, self.rect)
+
+    def is_clicked(self, mouse_pos):
+        return self.rect.collidepoint(mouse_pos)
 
 class RightHand(pygame.sprite.Sprite):
     LEFT_BOUNDARY = 100
@@ -1204,6 +1211,15 @@ async def main_menu_state():
         timer += 1
         
         for event in pygame.event.get():
+
+            if event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    mouse_pos = pygame.mouse.get_pos()
+                    if main_menu.linkedin.is_clicked(mouse_pos):
+                        if __import__('sys').platform == "emscripten":
+                           
+                            js.window.open("https://www.linkedin.com/in/giovan-aaron-8410751b5/")
+
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
