@@ -3,10 +3,7 @@ import pygame
 import random
 import math
 
-import tracemalloc
-tracemalloc.start()
-
-
+pygame.init()
 
 # Play Status
 class PlayStatus:
@@ -437,7 +434,7 @@ class Paused(pygame.sprite.Sprite):
     def __init__(self):
 
         self.box = pygame.image.load("data/assets/ui/pause_overlay.png").convert_alpha()
-        self.box.set_alpha(30) 
+        self.box.set_alpha(120) 
         self.box_rect = self.box.get_rect()
         self.box_rect.center = (GameContext.WIDTH/2, GameContext.HEIGHT/2)
 
@@ -449,6 +446,14 @@ class Paused(pygame.sprite.Sprite):
         self.unpause_prompt = self.font.render(f"Press Space to Unpause", True, "#666666")
         self.unpause_prompt_rect = self.unpause_prompt.get_rect()
         self.unpause_prompt_rect.center = (GameContext.WIDTH/2, 410)
+
+        self.On = False
+
+
+    def update(self):
+        
+        self.On = not self.On
+        
 
 
     
@@ -737,7 +742,7 @@ class GameOver():
         
         if GameContext.GAME_OVER_VISITS >= 3:
              if self.current_time - self.start_time >= 1500:  # 3000 milliseconds = 3 seconds
-                if any(keys):  # Check if any key is pressed
+                if keys:  # Check if any key is pressed
                     GameContext.GAME_OVER_VISITS += 1
                     GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
 
@@ -746,7 +751,7 @@ class GameOver():
 
         # Check if 3 seconds have passed
         if self.current_time - self.start_time >= 3000:  # 3000 milliseconds = 3 seconds
-            if any(keys):  # Check if any key is pressed
+            if keys:  # Check if any key is pressed
                 GameContext.GAME_OVER_VISITS += 1
                 GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
 
@@ -832,12 +837,12 @@ class MainMenu:
 
         if GameContext.MAIN_MENU_VISITS >= 3:
              if self.current_time - self.start_time >= 1000:  
-                if any(keys):  # Check if any key is pressed
+                if keys:  # Check if any key is pressed
                     GameContext.PLAY_STATE = PlayStatus.TUTORIAL
 
         # Check if 3 seconds have passed
         if self.current_time - self.start_time >= 2000:  
-            if any(keys):  # Check if any key is pressed
+            if keys:  # Check if any key is pressed
                 GameContext.PLAY_STATE = PlayStatus.TUTORIAL
         
         
@@ -908,11 +913,11 @@ class Gameplay:
 
         # Font and collision notification
         self.test_font = pygame.font.Font("data/fonts/open_serif_italic.ttf", 32)
-        self.collision_notif = self.test_font.render("You're hit!", True, "Red")
+        
 
         self.paused = False
         self.current_music_pos = 30
-        self.paused_notif = Paused()
+        
 
         
 
@@ -945,42 +950,24 @@ class Gameplay:
         self.player.draw(self.screen)# Ensure draw() method in ScoreCount class blits the score correctly
 
     def update(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
+        
+            keys = pygame.key.get_pressed()
+        
+                           
 
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:  # Toggle pause on spacebar press
-                        if self.paused == False:
+            # # if event.type == pygame.MOUSEBUTTONDOWN:
+            # #     if event.button == 1:  # 1 is the left mouse button
+            # #         mouse_pos = pygame.mouse.get_pos()
 
-                            pygame.mixer.music.pause()
-                                      
-                            self.paused = not self.paused
-                        else: 
-                            pygame.mixer_music.unpause()
-                            self.paused = not self.paused
-                            
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:  # 1 is the left mouse button
-                        mouse_pos = pygame.mouse.get_pos()
-
-                    self.mute_button.update(mouse_pos)
+            # #     self.mute_button.update(mouse_pos)
 
                 
 
-            # If the game is paused, skip updating the game objects
-            if self.paused:
-                self.paused_notif.draw(self.screen)
-                pygame.display.update()
-                self.clock.tick(60)  # Still cap frame rate to 60 FPS during pause
-                continue
+                
             
 
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            keys = pygame.key.get_pressed()
+            
 
             
 
@@ -1012,7 +999,7 @@ class Gameplay:
             # Check for collisions with RightHand
             for right_hand in self.right_hands:
                 if self.check_collision(self.player, right_hand):
-                    self.screen.blit(self.collision_notif, (150, 250))
+                    
                     GameContext.PLAY_STATE = PlayStatus.GAME_OVER
                     pygame.display.update()
                     return self.score_container.get_final_score()
@@ -1020,7 +1007,7 @@ class Gameplay:
             # Check for collisions with LeftHand
             for left_hand in self.left_hands:
                 if self.check_collision(self.player, left_hand):
-                    self.screen.blit(self.collision_notif, (150, 250))
+                   
                     GameContext.PLAY_STATE = PlayStatus.GAME_OVER
                     pygame.display.update()
                     return self.score_container.get_final_score()
@@ -1051,7 +1038,7 @@ class Gameplay:
 
             # Update the display
             pygame.display.update()
-            self.clock.tick(60)
+            
 
 class Tutorial:
     def __init__ (self):
@@ -1076,12 +1063,12 @@ class Tutorial:
         self.current_time = pygame.time.get_ticks()
 
         if GameContext.TUTORIAL_VISITS >= 3:
-             if self.current_time - self.start_time >= 1000:
-                if any(keys):
+            if self.current_time - self.start_time >= 1000:
+                if keys:
                     GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
 
         if self.current_time - self.start_time >= 3000:
-            if any(keys):
+            if keys:
                 GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
 
         if self.current_time - self.start_time >= 5000:
@@ -1186,20 +1173,25 @@ class EndCredits:
 # Play States
 async def credits_state():
     credits = Credits()
-    
+
     while GameContext.PLAY_STATE == PlayStatus.CREDITS:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-        
+
+        # Update and draw the credits
         credits.update()
         credits.draw()
-        
-        pygame.display.flip()
-        pygame.time.Clock().tick(60)  # Cap the frame rate to 60 FPS
 
-    # When exiting the loop, check the new state
+        # Update the screen
+        pygame.display.flip()
+
+        # Non-blocking sleep to maintain 60 FPS (1/60 seconds = 0.01667 seconds)
+        await asyncio.sleep(0)
+       
+
+    # When exiting the loop, transition to the next state
     if GameContext.PLAY_STATE == PlayStatus.MAIN_MENU:
         await main_menu_state()
 
@@ -1210,23 +1202,31 @@ async def end_state():
 async def main_menu_state():
     main_menu = MainMenu()
 
+    keys = False
+
     while GameContext.PLAY_STATE == PlayStatus.MAIN_MENU:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-        
-        keys = pygame.key.get_pressed()
 
+            if event.type == pygame.KEYDOWN:
+                keys = True
 
         main_menu.draw()
+    
         main_menu.update(keys)
 
         pygame.display.flip()
-        pygame.time.Clock().tick(60)
+        await asyncio.sleep(0)
+    
+    
+        
 
 async def gameplay_state():
+    GameContext.build_screen()
     gameplay = Gameplay()
+    paused = Paused()
 
     score = None  # Initialize score
 
@@ -1235,11 +1235,44 @@ async def gameplay_state():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+        
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:  # Toggle pause on spacebar press
+                    paused.update()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:  # 1 is the left mouse button
+                    mouse_pos = pygame.mouse.get_pos()
+                    gameplay.mute_button.update(mouse_pos)
+
+                
+
+        gameplay.draw()
+
+        if paused.On:
+            pygame.mixer.music.pause()
+            paused.draw(GameContext.SCREEN)
+            
 
 
+        if not paused.On:
+            pygame.mixer.music.unpause()
+            score = gameplay.update()
 
-        score = gameplay.update()  # Ensure update returns the score
+        else:
+            
+            
+            pygame.display.update()
+            
 
+        
+
+        
+        
+        # score = gameplay.update()  # Ensure update returns the score
+
+        pygame.display.flip()
+        await asyncio.sleep(0)
     # Return the score when the game is over
     return score
 
@@ -1250,6 +1283,7 @@ async def game_over_state(score=0):
     game_over = GameOver(score)
     main_menu_nav = MainMenuButton()
     tutorial_icon = TutorialIcon()
+    keys = False
 
     while GameContext.PLAY_STATE == PlayStatus.GAME_OVER:
         for event in pygame.event.get():
@@ -1275,13 +1309,18 @@ async def game_over_state(score=0):
                             
                             GameContext.PLAY_STATE = PlayStatus.TUTORIAL
 
+            if event.type == pygame.KEYDOWN:
+                keys = True
+
 
         game_over.draw()
-        pygame.display.flip()
-        pygame.time.Clock().tick(60)
-
-        keys = pygame.key.get_pressed()
         game_over.update(keys)
+
+
+        pygame.display.flip()
+        await asyncio.sleep(0)
+
+       
 
 
     # Handle transition back to the main menu or end
@@ -1294,6 +1333,7 @@ async def tutorial_state():
 
     tutorial = Tutorial()
     back_button = Backbutton()
+    keys = False
     while GameContext.PLAY_STATE == PlayStatus.TUTORIAL:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -1310,11 +1350,18 @@ async def tutorial_state():
                         GameContext.PLAY_STATE = PlayStatus.MAIN_MENU
     
         
-        keys = pygame.key.get_pressed()
+            if event.type == pygame.KEYDOWN:
+                keys = True
 
-        tutorial.update(keys)
         tutorial.draw()
-        pygame.time.Clock().tick(60)
+        tutorial.update(keys)
+        
+        pygame.display.flip()
+        await asyncio.sleep(0)
+    
+    
+
+       
         
 
 async def end_credits_state():
@@ -1335,8 +1382,23 @@ async def end_credits_state():
 
 # Main
 async def main():
-    while True:
-        await asyncio.sleep(0)  # Yield control to the event loop
+
+    GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
+    
+    global GomeContext
+    
+    FPS = pygame.time.Clock()
+
+    running = True
+    while GameContext.PLAY_STATE:
+          # Yield control to the event loop
+        # GameContext.build_screen()
+        # pygame.display.update()
+        print("Current play state:", GameContext.PLAY_STATE)
+
+        await asyncio.sleep(0) 
+        
+          
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -1346,28 +1408,40 @@ async def main():
 
         if GameContext.PLAY_STATE == PlayStatus.CREDITS:
             await credits_state()
+            
 
         elif GameContext.PLAY_STATE == PlayStatus.MAIN_MENU:
+            print("i'm in main menu state")
             await main_menu_state()
+
+
+        elif GameContext.PLAY_STATE == PlayStatus.TUTORIAL:
+            print("i'm in tutorial")
+            await tutorial_state()
+
+        elif GameContext.PLAY_STATE == PlayStatus.GAMEPLAY:
+            print("i'm in gameplay state")
+            score = await gameplay_state()  # Retrieve the score when gameplay ends
 
         elif GameContext.PLAY_STATE == PlayStatus.GAME_END:
             await end_state()
 
-        elif GameContext.PLAY_STATE == PlayStatus.GAMEPLAY:
-            score = await gameplay_state()  # Retrieve the score when gameplay ends
 
         elif GameContext.PLAY_STATE == PlayStatus.GAME_OVER:
             try:
                 score
                 await game_over_state(score)
             except: await game_over_state()  # Pass the score to the game over state
-        elif GameContext.PLAY_STATE == PlayStatus.TUTORIAL:
-            await tutorial_state()
 
         elif GameContext.PLAY_STATE == PlayStatus.END_CREDITS:
             await end_credits_state()
 
-if __name__ == "__main__":
-    pygame.init()
-    GameContext.build_screen()
-    asyncio.run(main())
+        pygame.display.update()
+
+        FPS.tick(60)
+        pygame.time.wait(1000 // 60)
+
+        
+
+
+asyncio.run(main())

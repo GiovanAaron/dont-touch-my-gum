@@ -62,7 +62,7 @@ def gameplay_state():
                 exit()
 
 
-
+        gameplay.draw()
         score = gameplay.update()  # Ensure update returns the score
 
     # Return the score when the game is over
@@ -143,7 +143,7 @@ def tutorial_state():
 
         tutorial.update(keys)
         tutorial.draw()
-        pygame.time.Clock().tick(60)
+        # pygame.time.Clock().tick(60)
         
 
 
