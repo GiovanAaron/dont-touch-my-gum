@@ -738,22 +738,12 @@ class GameOver():
 
     def update(self, keys):
         self.current_time = pygame.time.get_ticks()
-
         
-        if GameContext.GAME_OVER_VISITS >= 3:
-             if self.current_time - self.start_time >= 1500:  # 3000 milliseconds = 3 seconds
-                if keys:  # Check if any key is pressed
-                    GameContext.GAME_OVER_VISITS += 1
-                    GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
-
         
-
-
-        # Check if 3 seconds have passed
-        if self.current_time - self.start_time >= 3000:  # 3000 milliseconds = 3 seconds
-            if keys:  # Check if any key is pressed
-                GameContext.GAME_OVER_VISITS += 1
-                GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
+    
+        if keys:  # Check if any key is pressed
+            GameContext.GAME_OVER_VISITS += 1
+            GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
 
 
         if self.current_time - self.start_time >= 13000:  # 3000 milliseconds = 3 seconds
@@ -1062,21 +1052,14 @@ class Tutorial:
     def update(self, keys):
         self.current_time = pygame.time.get_ticks()
 
-        if GameContext.TUTORIAL_VISITS >= 3:
-            if self.current_time - self.start_time >= 1000:
-                if keys:
-                    GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
+        
+        if keys:
+            GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
 
-        if self.current_time - self.start_time >= 3000:
-            if keys:
-                GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
 
         if self.current_time - self.start_time >= 5000:
             self.start_prompt.update()
 
-        
-        
-            
 
         
 
@@ -1145,7 +1128,7 @@ class EndCredits:
         self.timer = 0
 
 
-    def update(self, keys):
+    def update(self):
         
         if self.pos == -200:
             self.timer += 1
@@ -1159,8 +1142,7 @@ class EndCredits:
             self.image_rect.center = (GameContext.WIDTH/2, self.pos)
             self.clock.tick(60)
         
-        if any(keys):
-            GameContext.PLAY_STATE = PlayStatus.MAIN_MENU
+        
 
 
     def draw(self):
@@ -1203,15 +1185,22 @@ async def main_menu_state():
     main_menu = MainMenu()
 
     keys = False
+    timer = 0
 
     while GameContext.PLAY_STATE == PlayStatus.MAIN_MENU:
+        timer += 1
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
 
             if event.type == pygame.KEYDOWN:
-                keys = True
+                if GameContext.MAIN_MENU_VISITS >= 3 and timer/60 >= 2:
+                    keys = True
+
+                elif timer / 60 >= 2:
+                    keys = True
 
         main_menu.draw()
     
@@ -1284,8 +1273,11 @@ async def game_over_state(score=0):
     main_menu_nav = MainMenuButton()
     tutorial_icon = TutorialIcon()
     keys = False
+    timer = 0
 
     while GameContext.PLAY_STATE == PlayStatus.GAME_OVER:
+        timer += 1
+        print(f"GAMEOVER visits:{GameContext.GAME_OVER_VISITS}")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -1310,7 +1302,11 @@ async def game_over_state(score=0):
                             GameContext.PLAY_STATE = PlayStatus.TUTORIAL
 
             if event.type == pygame.KEYDOWN:
-                keys = True
+                if GameContext.GAME_OVER_VISITS >= 3 and timer/60 >= 1.5:
+                    keys = True
+
+                elif timer / 60 >= 3:
+                    keys = True
 
 
         game_over.draw()
@@ -1334,7 +1330,11 @@ async def tutorial_state():
     tutorial = Tutorial()
     back_button = Backbutton()
     keys = False
+    timer = 0
+
     while GameContext.PLAY_STATE == PlayStatus.TUTORIAL:
+        timer += 1
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -1351,7 +1351,10 @@ async def tutorial_state():
     
         
             if event.type == pygame.KEYDOWN:
-                keys = True
+                if GameContext.TUTORIAL_VISITS >= 2 and timer/60 >= 3:
+                    keys = True
+                elif timer / 60 >= 5:
+                    keys = True
 
         tutorial.draw()
         tutorial.update(keys)
@@ -1366,24 +1369,37 @@ async def tutorial_state():
 
 async def end_credits_state():
 
+    timer = 0
+
     end_credits = EndCredits()
     while GameContext.PLAY_STATE == PlayStatus.END_CREDITS:
+        timer +=1
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                GameContext.PLAY_STATE = PlayStatus.MAIN_MENU
+                if timer / 60 >= 4:
+                    GameContext.PLAY_STATE = PlayStatus.MAIN_MENU
 
-        keys = pygame.key.get_pressed()
+            if event.type == pygame.KEYDOWN:
+                 if timer / 60 >= 4:
+                    GameContext.PLAY_STATE = PlayStatus.MAIN_MENU
+
+
+
+        
         end_credits.draw()
-        end_credits.update(keys)
+        end_credits.update()
+
+        pygame.display.flip()
+        await asyncio.sleep(0)
 
 # Main
 async def main():
 
-    GameContext.PLAY_STATE = PlayStatus.GAMEPLAY
+    GameContext.PLAY_STATE = PlayStatus.CREDITS
     
     global GomeContext
     
@@ -1392,11 +1408,10 @@ async def main():
     running = True
     while GameContext.PLAY_STATE:
           # Yield control to the event loop
-        # GameContext.build_screen()
-        # pygame.display.update()
+        
         print("Current play state:", GameContext.PLAY_STATE)
 
-        await asyncio.sleep(0) 
+        await asyncio.sleep() 
         
           
         for event in pygame.event.get():
@@ -1411,16 +1426,16 @@ async def main():
             
 
         elif GameContext.PLAY_STATE == PlayStatus.MAIN_MENU:
-            print("i'm in main menu state")
+            
             await main_menu_state()
 
 
         elif GameContext.PLAY_STATE == PlayStatus.TUTORIAL:
-            print("i'm in tutorial")
+           
             await tutorial_state()
 
         elif GameContext.PLAY_STATE == PlayStatus.GAMEPLAY:
-            print("i'm in gameplay state")
+            
             score = await gameplay_state()  # Retrieve the score when gameplay ends
 
         elif GameContext.PLAY_STATE == PlayStatus.GAME_END:
