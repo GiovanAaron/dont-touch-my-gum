@@ -5,6 +5,8 @@ Don't Touch My Gum" is a playful and engaging mini-game centred around the commo
 
 ![](https://github.com/GiovanAaron/dont-touch-my-gum/blob/main/data/assets/tutorial/small%20preview.gif?raw=true)
 
+## Play the game online [on itch.io](https://giovanaaron.itch.io/dont-touch-my-gum-cv)
+
 ### How to Play
 
 Use the arrow keys your maneuver your hand out of the way.
